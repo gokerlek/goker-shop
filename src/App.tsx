@@ -9,6 +9,8 @@ import {Checkout} from  './pages/checkout';
 import {Success} from  './pages/success';
 import {Products} from  './pages/products';
 import {HomePage} from  './pages/home';
+import {NoMatch} from  './pages/nomatch';
+
 
 const App:any = () => {
   return (
@@ -27,6 +29,9 @@ const App:any = () => {
       </Route>
       <Route path = "/" exact>
         <HomePage />
+      </Route>
+      <Route path="*">
+            <NoMatch />
       </Route>
     </Router>
     );
