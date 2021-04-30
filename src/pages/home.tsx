@@ -1,5 +1,5 @@
 export const HomePage = ()=>{
     return (
-    <p>Home page</p>
+    <div className='container mx-auto'>Home page</div>
     )
 }
