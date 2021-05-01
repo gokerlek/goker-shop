@@ -1,26 +1,42 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "tailwindcss/tailwind.css"
+import {
+  BrowserRouter as Router,
+  Route, Switch
+} from "react-router-dom";
+import {Basket} from './pages/basket';
+import {Checkout} from  './pages/checkout';
+import {Success} from  './pages/success';
+import {Products} from  './pages/products';
+import {HomePage} from  './pages/home';
+import {NoMatch} from  './pages/nomatch';
 
-function App() {
+
+const App:React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <Switch>
+      <Route path = "/basket">
+       <Basket />
+      </Route>
+      <Route exact path = "/checkout/success">
+        <Success/>
+      </Route>
+      <Route path = "/checkout">
+        <Checkout />
+      </Route>     
+      <Route path = "/products">
+        <Products />
+      </Route>
+      <Route  path = "/" exact>
+        <HomePage />
+      </Route>
+      <Route path="*">
+            <NoMatch />
+      </Route>
+      </Switch>
+    </Router>
+    );
 }
 
 export default App;
