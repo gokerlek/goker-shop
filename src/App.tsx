@@ -2,7 +2,7 @@ import React from 'react';
 import "tailwindcss/tailwind.css"
 import {
   BrowserRouter as Router,
-  Route,
+  Route, Switch
 } from "react-router-dom";
 import {Basket} from './pages/basket';
 import {Checkout} from  './pages/checkout';
@@ -15,24 +15,26 @@ import {NoMatch} from  './pages/nomatch';
 const App:any = () => {
   return (
     <Router>
+      <Switch>
       <Route path = "/basket">
        <Basket />
       </Route>
+      <Route exact path = "/checkout/success">
+        <Success/>
+      </Route>
       <Route path = "/checkout">
         <Checkout />
-      </Route>
-      <Route path = "/checkout/success" >
-        <Success />
-      </Route>
+      </Route>     
       <Route path = "/products">
         <Products />
       </Route>
-      <Route path = "/" exact>
+      <Route  path = "/" exact>
         <HomePage />
       </Route>
       <Route path="*">
             <NoMatch />
       </Route>
+      </Switch>
     </Router>
     );
 }
