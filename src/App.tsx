@@ -12,7 +12,7 @@ import {HomePage} from  './pages/home';
 import {NoMatch} from  './pages/nomatch';
 
 
-const App:any = () => {
+const App:React.FC = () => {
   return (
     <Router>
       <Switch>
