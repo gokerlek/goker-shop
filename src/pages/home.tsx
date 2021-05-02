@@ -1,5 +1,13 @@
+import { Container } from "../components/container"
+import { Layout } from "../components/layout"
+import { Backgraund } from "../components/backgraund"
+
 export const HomePage: React.FC = ()=>{
     return (
-    <div className='container mx-auto'>Home page</div>
+        <Layout>
+            <Container>
+                <Backgraund/>
+            </Container>
+        </Layout>
     )
 }
