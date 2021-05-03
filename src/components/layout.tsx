@@ -13,7 +13,8 @@ export const Layout:React.FC = ( {children}) => {
       grid 
       grid-rows-layout
       m-auto
-">
+      font-layout
+      ">
         {children}
         <Footer/>
       </div>
