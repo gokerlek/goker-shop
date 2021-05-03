@@ -13,7 +13,7 @@ export const Backgraund:React.FC =() => {
       bg-backgraund 
       bg-cover "
       >
-        <Logo/>
+        <Logo small/>
         <Search/>
       </div>
     );
