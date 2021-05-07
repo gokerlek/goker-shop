@@ -1,4 +1,5 @@
 import { useState, useEffect} from "react"
+import { ProductCard } from "../components/productCard"
 
 interface item     {
     id:Number,
@@ -8,7 +9,7 @@ interface item     {
     description:String,
     image:String
   }
-  
+
 export const Products: React.FC =()=> {
 
     const [items, setItems] = useState<item[]>([])
@@ -18,8 +19,16 @@ export const Products: React.FC =()=> {
      .then(json => setItems(json))
     },[])
 
-    const data = items.map((item)=>(
-      item.category));
-
-    return <p>{data}</p>
+    
+    return (<>
+    {items.map((item)=>(
+    <ProductCard 
+    id={item.id}
+    title={item.title}
+    price={item.price}
+    category={item.category}
+    description={item.description}
+    image={item.image}     
+    />))}    
+    </>)
 };
