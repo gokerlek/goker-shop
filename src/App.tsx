@@ -11,8 +11,8 @@ import {Products} from  './pages/products';
 import {HomePage} from  './pages/home';
 import {NoMatch} from  './pages/nomatch';
 
-
 const App:React.FC = () => {
+ 
   return (
     <Router>
       <Switch>
@@ -40,3 +40,4 @@ const App:React.FC = () => {
 }
 
 export default App;
+   
