@@ -20,7 +20,7 @@ export const Products: React.FC =()=> {
     },[])
 
     
-    return (<>
+    return (<div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
     {items.map((item)=>(
     <ProductCard 
     id={item.id}
@@ -30,5 +30,5 @@ export const Products: React.FC =()=> {
     description={item.description}
     image={item.image}     
     />))}    
-    </>)
+    </div>)
 };
