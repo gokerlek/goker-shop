@@ -6,10 +6,21 @@ interface FlatListProps {
 
 export const FlatList: React.FC<FlatListProps> = ({ searchResults }) => {
      return searchResults?.length > 0 ? (
-          <div className='bg-white mt-4 text-gray-600 text-sm border-transparent rounded-lg py-2 px-4 flex flex-col w-full cursor-pointer'>
-               <ul>
+          <div
+               className='
+          bg-white mt-4 
+          text-gray-600 text-sm 
+          border-transparent rounded-lg 
+          w-full
+          cursor-pointer
+          '>
+               <ul className='divide-gray-200 divide-y '>
                     {searchResults.map((item) => (
-                         <li key={`${item.id}`}>{item.title}</li>
+                         <li
+                              className='px-4 py-3 overflow-ellipsis truncate'
+                              key={`${item.id}`}>
+                              {item.title}
+                         </li>
                     ))}
                </ul>
           </div>

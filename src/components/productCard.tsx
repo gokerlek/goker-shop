@@ -24,10 +24,8 @@ export const ProductCard: React.FC<{
                     </button>
                </div>
                <div className='px-5 py-3'>
-                    <div className='text-footerGray'>
-                         {title.length > 30
-                              ? title.substring(0, 30) + "..."
-                              : title}
+                    <div className='text-footerGray overflow-ellipsis truncate'>
+                         {title}
                     </div>
                     <div className='text-gray-500 mt-2'>${price}</div>
                </div>
