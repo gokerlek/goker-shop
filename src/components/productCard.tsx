@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export const ProductCard: React.FC<{
      id?: Number;
      title: String;
@@ -9,7 +11,7 @@ export const ProductCard: React.FC<{
      return (
           <div
                className='w-full max-w-sm mx-auto rounded-3xl shadow-2xl overflow-hidden'
-               id={`{id}`}>
+               key={`${id}`}>
                <div
                     className='flex items-end justify-end h-56 w-full bg-cover'
                     style={{ backgroundImage: `url(${image})` }}>
@@ -25,7 +27,9 @@ export const ProductCard: React.FC<{
                </div>
                <div className='px-5 py-3'>
                     <div className='text-footerGray overflow-ellipsis truncate'>
-                         {title}
+                         <Link key={`${id}`} to={`/products/category/${id}`}>
+                              {title}
+                         </Link>
                     </div>
                     <div className='text-gray-500 mt-2'>${price}</div>
                </div>

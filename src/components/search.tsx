@@ -27,10 +27,14 @@ export const Search: React.FC = () => {
      }, [searchTerm]);
 
      return (
-          <div className='w-1/3'>
+          <div className='w-1/3 realtive'>
                <div className='bg-white mt-4 text-sm rounded-lg py-2 px-4 flex w-full cursor-pointer'>
                     <input
-                         className=' w-full m-0 p-0 text-gray-600 border-none focus:ring-transparent placeholder-gray-400 cursor-pointer'
+                         className=' 
+                         w-full m-0 p-0 
+                         text-gray-600 border-none  placeholder-gray-400                          
+                         focus:ring-transparent 
+                         cursor-pointer'
                          type='text'
                          placeholder='Search your dream product...'
                          value={searchTerm}
