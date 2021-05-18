@@ -22,7 +22,7 @@ const App: React.FC = () => {
                     <Route path='/checkout'>
                          <Checkout />
                     </Route>
-                    <Route path='/products/category/:id'>
+                    <Route path='/product/:id'>
                          <Product />
                     </Route>
                     <Route path='/products/:category'>

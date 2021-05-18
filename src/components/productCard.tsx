@@ -27,7 +27,7 @@ export const ProductCard: React.FC<{
                </div>
                <div className='px-5 py-3'>
                     <div className='text-footerGray overflow-ellipsis truncate'>
-                         <Link key={`${id}`} to={`/products/category/${id}`}>
+                         <Link key={`${id}`} to={`/product/${id}`}>
                               {title}
                          </Link>
                     </div>

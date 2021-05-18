@@ -21,10 +21,9 @@ export const FlatList: React.FC<FlatListProps> = ({ searchResults }) => {
                          <li className='px-4 py-3 overflow-ellipsis truncate'>
                               <Link
                                    key={`${item.id}`}
-                                   to={`/products/${item.category.replaceAll(
-                                        " ",
-                                        "_"
-                                   )}`}>
+                                   to={`/products/${item.category
+                                        .toLocaleLowerCase()
+                                        .replaceAll(" ", "_")}`}>
                                    {item.title}
                               </Link>
                          </li>
