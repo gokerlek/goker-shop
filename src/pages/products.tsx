@@ -1,15 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { ProductCard } from "../components/productCard";
-
-interface item {
-     id?: Number;
-     title: String;
-     price: Number;
-     category: String;
-     description: String;
-     image: String;
-}
+import { item } from "../interfaces/item";
 
 export const Products: React.FC = () => {
      const { category }: { category: string } = useParams();
