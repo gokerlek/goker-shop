@@ -9,8 +9,8 @@ export const Search: React.FC = () => {
           setSearchTerm(event.target.value);
      };
      useEffect(() => {
-          if (searchTerm.length > 1) {
-               fetch("https://fakestoreapi.com/products")
+          if (searchTerm.length > 0) {
+               fetch("https://fakestoreapi.com/products?limit=5")
                     .then((res) => res.json() as Promise<item[]>)
                     .then((json) =>
                          setSearchResults(
@@ -25,6 +25,7 @@ export const Search: React.FC = () => {
                setSearchResults([]);
           }
      }, [searchTerm]);
+     console.log(searchResults, searchTerm);
 
      return (
           <div className='w-1/3 realtive'>

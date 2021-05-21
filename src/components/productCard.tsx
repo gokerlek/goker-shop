@@ -9,9 +9,7 @@ export const ProductCard: React.FC<{
      image: String;
 }> = ({ id, title, price, category, description, image }) => {
      return (
-          <div
-               className='w-full max-w-sm mx-auto rounded-3xl shadow-2xl overflow-hidden'
-               key={`${id}`}>
+          <div className='w-full max-w-sm mx-auto rounded-3xl shadow-2xl overflow-hidden'>
                <div
                     className='flex items-end justify-end h-56 w-full bg-cover'
                     style={{ backgroundImage: `url(${image})` }}>
@@ -27,9 +25,7 @@ export const ProductCard: React.FC<{
                </div>
                <div className='px-5 py-3'>
                     <div className='text-footerGray overflow-ellipsis truncate'>
-                         <Link key={`${id}`} to={`/product/${id}`}>
-                              {title}
-                         </Link>
+                         <Link to={`/product/${id}`}>{title}</Link>
                     </div>
                     <div className='text-gray-500 mt-2'>${price}</div>
                </div>

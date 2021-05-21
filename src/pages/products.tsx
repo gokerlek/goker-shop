@@ -20,14 +20,16 @@ export const Products: React.FC = () => {
      return (
           <div className='grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6'>
                {items.map((item) => (
-                    <ProductCard
-                         id={item.id}
-                         title={item.title}
-                         price={item.price}
-                         category={item.category}
-                         description={item.description}
-                         image={item.image}
-                    />
+                    <div key={`${item.id}`}>
+                         <ProductCard
+                              id={item.id}
+                              title={item.title}
+                              price={item.price}
+                              category={item.category}
+                              description={item.description}
+                              image={item.image}
+                         />
+                    </div>
                ))}
           </div>
      );
