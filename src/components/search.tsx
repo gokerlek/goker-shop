@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { item } from "../interfaces/item";
-import { FlatList } from "./flat-list";
+import { SearchSuggestions } from "./search-suggestions";
 
 export const Search: React.FC = () => {
      const [searchResults, setSearchResults] = useState<item[]>([]);
@@ -54,7 +54,7 @@ export const Search: React.FC = () => {
                          />
                     </svg>
                </div>
-               <FlatList searchResults={searchResults.slice(0, 5)} />
+               <SearchSuggestions searchResults={searchResults.slice(0, 5)} />
           </div>
      );
 };

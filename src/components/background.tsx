@@ -1,4 +1,4 @@
-export const Backgraund: React.FC = ({ children }) => {
+export const Background: React.FC = ({ children }) => {
      return (
           <div
                className=' 

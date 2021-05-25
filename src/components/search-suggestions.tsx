@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { item } from "../interfaces/item";
 
-interface FlatListProps {
+interface SearchSuggestionsProps {
      searchResults: item[];
 }
 
-export const FlatList: React.FC<FlatListProps> = ({ searchResults }) => {
+export const SearchSuggestions: React.FC<SearchSuggestionsProps> = ({
+     searchResults,
+}) => {
      return searchResults?.length > 0 ? (
           <div
                className='
