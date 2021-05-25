@@ -5,4 +5,5 @@ export interface item {
      category: String;
      description: String;
      image: String;
+     amount: number;
 }
