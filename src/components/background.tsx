@@ -1,7 +1,4 @@
-import { Logo } from "./logo";
-import { Search } from "./search";
-
-export const Backgraund: React.FC = () => {
+export const Background: React.FC = ({ children }) => {
      return (
           <div
                className=' 
@@ -12,8 +9,7 @@ export const Backgraund: React.FC = () => {
       flex-col 
       bg-backgraund 
       bg-cover '>
-               <Logo small />
-               <Search />
+               {children}
           </div>
      );
 };
