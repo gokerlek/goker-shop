@@ -9,32 +9,26 @@ export const Search: React.FC = () => {
           setSearchTerm(event.target.value);
      };
      useEffect(() => {
-          if (searchTerm.length > 1) {
-               fetch("https://fakestoreapi.com/products")
-                    .then((res) => res.json() as Promise<ProductInterface[]>)
-                    .then((json) =>
-                         setSearchResults(
-                              json.filter((data) =>
-                                   data.title
-                                        .toLowerCase()
-                                        .includes(searchTerm.toLowerCase())
-                              )
-                         )
-                    );
-          } else {
-               setSearchResults([]);
-          }
+          searchTerm.length > 1
+               ? fetch("https://fakestoreapi.com/products")
+                      .then((res) => res.json() as Promise<ProductInterface[]>)
+                      .then((json) =>
+                           setSearchResults(
+                                json.filter((data) =>
+                                     data.title
+                                          .toLowerCase()
+                                          .includes(searchTerm.toLowerCase())
+                                )
+                           )
+                      )
+               : setSearchResults([]);
      }, [searchTerm]);
 
      return (
           <div className='w-1/3 realtive'>
                <div className='bg-white mt-4 text-sm rounded-lg py-2 px-4 flex w-full cursor-pointer'>
                     <input
-                         className=' 
-                         w-full m-0 p-0 
-                         text-gray-600 border-none  placeholder-gray-400                          
-                         focus:ring-transparent 
-                         cursor-pointer'
+                         className='w-full m-0 p-0 text-gray-600 border-none placeholder-gray-400 focus:ring-transparent cursor-pointer'
                          type='text'
                          placeholder='Search your dream product...'
                          value={searchTerm}
