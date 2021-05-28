@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { item } from "../interfaces/item";
+import { ProductInterface } from "../interfaces/product-interface";
 import { SearchSuggestions } from "./search-suggestions";
 
 export const Search: React.FC = () => {
-     const [searchResults, setSearchResults] = useState<item[]>([]);
+     const [searchResults, setSearchResults] = useState<ProductInterface[]>([]);
      const [searchTerm, setSearchTerm] = useState<string>("");
      const handleChange = (event: any) => {
           setSearchTerm(event.target.value);
@@ -11,7 +11,7 @@ export const Search: React.FC = () => {
      useEffect(() => {
           if (searchTerm.length > 1) {
                fetch("https://fakestoreapi.com/products")
-                    .then((res) => res.json() as Promise<item[]>)
+                    .then((res) => res.json() as Promise<ProductInterface[]>)
                     .then((json) =>
                          setSearchResults(
                               json.filter((data) =>

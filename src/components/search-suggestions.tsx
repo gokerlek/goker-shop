@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { item } from "../interfaces/item";
+import { ProductInterface } from "../interfaces/product-interface";
 
 interface SearchSuggestionsProps {
-     searchResults: item[];
+     searchResults: ProductInterface[];
 }
 
 export const SearchSuggestions: React.FC<SearchSuggestionsProps> = ({
@@ -19,15 +19,15 @@ export const SearchSuggestions: React.FC<SearchSuggestionsProps> = ({
           absolute
           '>
                <ul className='divide-gray-200 divide-y '>
-                    {searchResults.map((item) => (
+                    {searchResults.map((searchResult) => (
                          <li
-                              key={`${item.id}`}
+                              key={`${searchResult.id}`}
                               className='px-4 py-3 overflow-ellipsis truncate'>
                               <Link
-                                   to={`/products/${item.category
+                                   to={`/products/${searchResult.category
                                         .toLocaleLowerCase()
                                         .replaceAll(" ", "_")}`}>
-                                   {item.title}
+                                   {searchResult.title}
                               </Link>
                          </li>
                     ))}
