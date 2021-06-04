@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { Layout } from "../components/layout";
 import { ProductCard } from "../components/productCard";
-import { Search } from "../components/search";
 import { ProductInterface } from "../interfaces/product-interface";
 
 export const Products: React.FC = () => {

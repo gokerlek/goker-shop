@@ -1,19 +1,15 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { ProductInterface } from "../interfaces/product-interface";
 
 export const Product: React.FC = () => {
      const { id }: { id: string } = useParams();
-     const [product, setProduct] = useState({
-          id: 0,
-          title: "",
-          price: 0,
-          category: "",
-          description: "",
-          image: "",
-     });
+     const [product, setProduct] = useState<ProductInterface>(
+          {} as ProductInterface
+     );
      useEffect(() => {
           fetch(`https://fakestoreapi.com/products/${id}`)
-               .then((res) => res.json())
+               .then((res) => res.json() as Promise<ProductInterface>)
                .then((json) => setProduct(json));
      }, [id]);
      console.log(product.title);
