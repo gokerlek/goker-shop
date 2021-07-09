@@ -17,28 +17,10 @@ interface BasketType {
 }
 
 export const Basket: React.FC = () => {
-     const [baskets, setBaskets] = useState([
-          {
-               date: "",
-               id: 0,
-               userId: 0,
-               products: [{ productId: 0, quantity: 0 }],
-               product: [
-                    {
-                         id: 0,
-                         title: "",
-                         price: 0,
-                         category: "",
-                         description: "",
-                         image: "",
-                         amount: 0,
-                    },
-               ],
-          },
-     ]);
+     const [baskets, setBaskets] = useState<BasketType>();
      useEffect(() => {
           fetch("https://fakestoreapi.com/carts/user/1")
-               .then((res) => res.json() as Promise<BasketType[]>)
+               .then((res) => res.json() as Promise<BasketType>)
                .then((json) => setBaskets(json));
      }, []);
 
@@ -68,7 +50,7 @@ export const Basket: React.FC = () => {
      return (
           <p>
                Basket
-               <div> {baskets.map((basket) => basket.id)}</div>
+               <div> {baskets?.products.map((basket) => basket.productId)}</div>
                {ned.id}
           </p>
      );
