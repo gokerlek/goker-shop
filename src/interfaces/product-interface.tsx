@@ -5,5 +5,4 @@ export interface ProductInterface {
      category: string;
      description: string;
      image: string;
-     amount: number;
 }

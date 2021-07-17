@@ -12,24 +12,14 @@ interface BasketType {
      id: number;
      userId: number;
      products: { productId: number; quantity: number }[];
-     product: {
-          id: number;
-          title: string;
-          price: number;
-          category: string;
-          description: string;
-          image: string;
-          amount: number;
-     }[];
+     product: ProductInterface;
 }
 
 export const Products: React.FC = () => {
      const { category }: { category: string } = useParams();
+
      const [products, setProducts] = useState<ProductInterface[]>([]);
-     const [userCart, setUserCart] = useState<BasketType>();
-     const [carts, setCarts] = useState<ProductInterface>();
-     const [oner, setOner] = useState<BasketType>();
-     console.log(oner?.id);
+
      useEffect(() => {
           fetch(
                `https://fakestoreapi.com/products/category/${category.replaceAll(
@@ -47,6 +37,8 @@ export const Products: React.FC = () => {
                .then((json) => setUserCart(json));
      }, []);
 
+     const [userCart, setUserCart] = useState<BasketType>();
+
      const increaseQuantity = (productId: number, quantity: number) => {
           const updatedUserCart = userCart;
           const index = (userCart as BasketType).products.findIndex(
@@ -63,6 +55,25 @@ export const Products: React.FC = () => {
                });
           }
           setUserCart(updatedUserCart);
+
+          const totalQuantitiy = () =>
+               userCart?.products
+                    .map((pro) => pro.quantity)
+                    .reduce((ac: number, quantity: number) => ac + quantity);
+          console.log(totalQuantitiy());
+
+          Promise.all([
+               userCart?.products.map((product) =>
+                    fetch(
+                         `https://fakestoreapi.com/products/${product.productId}`
+                    ).then((res) => res.json() as Promise<ProductInterface>)
+               ),
+               console.log("oldu"),
+          ]).then((products) => {
+               products[0]?.map((product) =>
+                    product.then((productData) => console.log(productData))
+               );
+          });
      };
 
      const addProductToCart = (productId: number) => () => {
@@ -79,11 +90,33 @@ export const Products: React.FC = () => {
                body: JSON.stringify({
                     userId: 1,
                     date: 2019 - 12 - 10,
-                    products: [{ productId, quantity: newQuantity }],
+                    products: [{ productId, newQuantity }],
                }),
           });
      };
-     console.log(userCart);
+
+     const [basket, setBasket] = useState<ProductInterface>(
+          {} as ProductInterface
+     );
+
+     useEffect(() => {
+          Promise.all([
+               userCart?.products.map((product) =>
+                    fetch(
+                         `https://fakestoreapi.com/products/${product.productId}`
+                    ).then((res) => res.json() as Promise<ProductInterface>)
+               ),
+          ]).then((x) => {
+               console.log(x);
+          });
+     }, []);
+
+     /* const totalQuantitiy = () =>
+          userCart?.products
+               .map((pro) => pro.quantity)
+               .reduce((ac: number, quantity: number) => ac + quantity);
+     console.log(totalQuantitiy());*/
+
      return (
           <>
                <div className='h-productLine flex items-center justify-between bg-productLine mb-16'>
