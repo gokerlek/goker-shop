@@ -38,6 +38,9 @@ export const Products: React.FC = () => {
      }, []);
 
      const [userCart, setUserCart] = useState<BasketType>();
+     const [basket, setBasket] = useState<ProductInterface>(
+          {} as ProductInterface
+     );
 
      const increaseQuantity = (productId: number, quantity: number) => {
           const updatedUserCart = userCart;
@@ -56,11 +59,7 @@ export const Products: React.FC = () => {
           }
           setUserCart(updatedUserCart);
 
-          const totalQuantitiy = () =>
-               userCart?.products
-                    .map((pro) => pro.quantity)
-                    .reduce((ac: number, quantity: number) => ac + quantity);
-          console.log(totalQuantitiy());
+          console.log(userCart);
 
           Promise.all([
                userCart?.products.map((product) =>
@@ -68,13 +67,22 @@ export const Products: React.FC = () => {
                          `https://fakestoreapi.com/products/${product.productId}`
                     ).then((res) => res.json() as Promise<ProductInterface>)
                ),
-               console.log("oldu"),
           ]).then((products) => {
                products[0]?.map((product) =>
-                    product.then((productData) => console.log(productData))
+                    product.then((productData) => setBasket(productData))
                );
           });
      };
+
+     const totalPrice = userCart?.products
+          .flatMap((product) =>
+               product.productId === basket.id
+                    ? product.quantity * basket.price
+                    : 0
+          )
+          .filter((prices) => prices !== 0);
+
+     console.log(totalPrice);
 
      const addProductToCart = (productId: number) => () => {
           const quantity =
@@ -95,11 +103,7 @@ export const Products: React.FC = () => {
           });
      };
 
-     const [basket, setBasket] = useState<ProductInterface>(
-          {} as ProductInterface
-     );
-
-     useEffect(() => {
+     /* useEffect(() => {
           Promise.all([
                userCart?.products.map((product) =>
                     fetch(
