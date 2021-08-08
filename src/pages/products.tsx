@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { ProductCard } from "../components/productCard";
 import { Search } from "../components/search";
 import { ProductInterface } from "../interfaces/product-interface";
 import { Logo } from "../components/logo";
@@ -19,28 +18,13 @@ export const Products: React.FC = () => {
      const { category }: { category: string } = useParams();
 
      const [products, setProducts] = useState<ProductInterface[]>([]);
-
-     useEffect(() => {
-          fetch(
-               `https://fakestoreapi.com/products/category/${category.replaceAll(
-                    "_",
-                    " "
-               )}`
-          )
-               .then((res) => res.json() as Promise<ProductInterface[]>)
-               .then((json) => setProducts(json));
-     }, [category]);
-
-     useEffect(() => {
-          fetch("https://fakestoreapi.com/carts/1")
-               .then((res) => res.json() as Promise<BasketType>)
-               .then((json) => setUserCart(json));
-     }, []);
-
-     const [userCart, setUserCart] = useState<BasketType>();
-     const [basket, setBasket] = useState<ProductInterface>(
-          {} as ProductInterface
+     const [userCart, setUserCart] = useState<BasketType>(({
+          products: [],
+     } as unknown) as BasketType);
+     const [basket, setBasket] = useState<ProductInterface[]>(
+          [] as ProductInterface[]
      );
+     const [totalPrice, setTotalPrice] = useState<number>(0);
 
      const increaseQuantity = (productId: number, quantity: number) => {
           const updatedUserCart = userCart;
@@ -57,32 +41,8 @@ export const Products: React.FC = () => {
                     quantity,
                });
           }
-          setUserCart(updatedUserCart);
-
-          console.log(userCart);
-
-          Promise.all([
-               userCart?.products.map((product) =>
-                    fetch(
-                         `https://fakestoreapi.com/products/${product.productId}`
-                    ).then((res) => res.json() as Promise<ProductInterface>)
-               ),
-          ]).then((products) => {
-               products[0]?.map((product) =>
-                    product.then((productData) => setBasket(productData))
-               );
-          });
+          setUserCart({ ...updatedUserCart });
      };
-
-     const totalPrice = userCart?.products
-          .flatMap((product) =>
-               product.productId === basket.id
-                    ? product.quantity * basket.price
-                    : 0
-          )
-          .filter((prices) => prices !== 0);
-
-     console.log(totalPrice);
 
      const addProductToCart = (productId: number) => () => {
           const quantity =
@@ -103,23 +63,47 @@ export const Products: React.FC = () => {
           });
      };
 
-     /* useEffect(() => {
-          Promise.all([
-               userCart?.products.map((product) =>
-                    fetch(
-                         `https://fakestoreapi.com/products/${product.productId}`
-                    ).then((res) => res.json() as Promise<ProductInterface>)
-               ),
-          ]).then((x) => {
-               console.log(x);
-          });
-     }, []);
+     useEffect(() => {
+          fetch(
+               `https://fakestoreapi.com/products/category/${category.replaceAll(
+                    "_",
+                    " "
+               )}`
+          )
+               .then((res) => res.json() as Promise<ProductInterface[]>)
+               .then((json) => setProducts(json));
+     }, [category]);
 
-     /* const totalQuantitiy = () =>
-          userCart?.products
-               .map((pro) => pro.quantity)
-               .reduce((ac: number, quantity: number) => ac + quantity);
-     console.log(totalQuantitiy());*/
+     useEffect(() => {
+          fetch("https://fakestoreapi.com/carts/1")
+               .then((res) => res.json() as Promise<BasketType>)
+               .then((json) => setUserCart(json));
+     }, [setUserCart]);
+
+     useEffect(() => {
+          Promise.all(
+               userCart.products.map(
+                    (product) =>
+                         fetch(
+                              `https://fakestoreapi.com/products/${product.productId}`
+                         ).then((res) =>
+                              res.json()
+                         ) as Promise<ProductInterface>
+               )
+          ).then(setBasket);
+     }, [userCart, setBasket]);
+
+     useEffect(() => {
+          const prices = userCart?.products.flatMap((product) => {
+               const productInBasket = basket.find(
+                    (basketProduct) => basketProduct.id === product.productId
+               );
+               return productInBasket
+                    ? product.quantity * productInBasket.price
+                    : 0;
+          });
+          setTotalPrice(prices.reduce((sum, current) => sum + current, 0));
+     }, [basket, userCart, setTotalPrice]);
 
      return (
           <>
@@ -129,7 +113,7 @@ export const Products: React.FC = () => {
                          <Search />
                     </div>
                     <div className='m-4 p-3 w-40 border-gray-50 border rounded-lg'>
-                         basket
+                         basket {totalPrice}
                     </div>
                </div>
                <div className='grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6'>
