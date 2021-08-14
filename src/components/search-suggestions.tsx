@@ -1,13 +1,10 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { ProductInterface } from "../interfaces/product-interface";
+import { getFilterProducts } from "../store/products/products.selectors";
 
-interface SearchSuggestionsProps {
-     searchResults: ProductInterface[];
-}
+export const SearchSuggestions = () => {
+     const searchResults = useSelector(getFilterProducts);
 
-export const SearchSuggestions: React.FC<SearchSuggestionsProps> = ({
-     searchResults,
-}) => {
      return searchResults?.length > 0 ? (
           <div
                className='

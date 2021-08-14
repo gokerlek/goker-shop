@@ -21,44 +21,51 @@ export const Products: React.FC = () => {
      const [userCart, setUserCart] = useState<BasketType>(({
           products: [],
      } as unknown) as BasketType);
-     const [basket, setBasket] = useState<ProductInterface[]>(
+     const [userProducts, setUserProducts] = useState<ProductInterface[]>(
           [] as ProductInterface[]
      );
-     const [totalPrice, setTotalPrice] = useState<number>(0);
 
-     const increaseQuantity = (productId: number, quantity: number) => {
+     const [totalPriceOfCart, setTotalPriceOfCart] = useState<number>(0);
+
+     const updateProductCart = (quantity: number, productId: number) => {
           const updatedUserCart = userCart;
-          const index = (userCart as BasketType).products.findIndex(
+          const findIndex = userCart.products.findIndex(
                (product) => product.productId === productId
           );
-          if (index > -1) {
-               (updatedUserCart as BasketType).products[
-                    index
-               ].quantity = quantity;
-          } else {
-               (updatedUserCart as BasketType).products.push({
-                    productId,
-                    quantity,
-               });
-          }
-          setUserCart({ ...updatedUserCart });
+
+          findIndex > -1
+               ? (updatedUserCart.products[findIndex].quantity = quantity)
+               : updatedUserCart.products.push({ quantity, productId });
+
+          return updatedUserCart;
      };
 
      const addProductToCart = (productId: number) => () => {
-          const quantity =
-               userCart?.products.find(
-                    (product) => product.productId === productId
-               )?.quantity || 0;
-          const newQuantity = quantity + 1;
+          // eğer ürün eklenmemişse ürünü userCart quantity 1 olarak ekle. +
+          // eğer eren ürün varsa quantity 1 arttır +
+          // yeni değerleri setuserCart çağır +
+          // yeni değerlerle API patch request yap +
 
-          increaseQuantity(productId, newQuantity);
+          let quantity;
+          const findProduct = userCart.products.find(
+               (product) => product.productId === productId
+          )?.quantity;
+
+          if (!findProduct) {
+               quantity = 1;
+          } else {
+               quantity = findProduct + 1;
+          }
+
+          const updatedProductCart = updateProductCart(quantity, productId);
+          setUserCart({ ...updatedProductCart });
 
           fetch("https://fakestoreapi.com/carts/1", {
                method: "PATCH",
                body: JSON.stringify({
                     userId: 1,
                     date: 2019 - 12 - 10,
-                    products: [{ productId, newQuantity }],
+                    products: [...updatedProductCart.products],
                }),
           });
      };
@@ -90,20 +97,18 @@ export const Products: React.FC = () => {
                               res.json()
                          ) as Promise<ProductInterface>
                )
-          ).then(setBasket);
-     }, [userCart, setBasket]);
+          ).then(setUserProducts);
+     }, [userCart, setUserProducts]);
 
      useEffect(() => {
-          const prices = userCart?.products.flatMap((product) => {
-               const productInBasket = basket.find(
-                    (basketProduct) => basketProduct.id === product.productId
+          const prices = userCart.products.map((product) => {
+               const findPrices = userProducts.find(
+                    (userProduct) => userProduct.id === product.productId
                );
-               return productInBasket
-                    ? product.quantity * productInBasket.price
-                    : 0;
+               return findPrices ? findPrices.price * product.quantity : 0;
           });
-          setTotalPrice(prices.reduce((sum, current) => sum + current, 0));
-     }, [basket, userCart, setTotalPrice]);
+          setTotalPriceOfCart(prices.reduce((sum, cur) => sum + cur, 0));
+     }, [setTotalPriceOfCart, userCart, userProducts]);
 
      return (
           <>
@@ -113,7 +118,7 @@ export const Products: React.FC = () => {
                          <Search />
                     </div>
                     <div className='m-4 p-3 w-40 border-gray-50 border rounded-lg'>
-                         basket {totalPrice}
+                         basket {totalPriceOfCart}
                     </div>
                </div>
                <div className='grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6'>
