@@ -1,24 +1,27 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { getProductAction } from "../store/product/product.actions";
+import {
+     getIsProductPending,
+     getProduct,
+} from "../store/product/product.selectors";
 
 export const Product: React.FC = () => {
      const { id }: { id: string } = useParams();
-     const [product, setProduct] = useState({
-          id: 0,
-          title: "",
-          price: 0,
-          category: "",
-          description: "",
-          image: "",
-     });
-     useEffect(() => {
-          fetch(`https://fakestoreapi.com/products/${id}`)
-               .then((res) => res.json())
-               .then((json) => setProduct(json));
-     }, [id]);
-     console.log(product.title);
 
-     return (
+     const product = useSelector(getProduct);
+     const isProductPending = useSelector(getIsProductPending);
+
+     const dispatch = useDispatch();
+
+     useEffect(() => {
+          dispatch(getProductAction(id));
+     }, [id]);
+
+     return isProductPending ? (
+          <div>Loading</div>
+     ) : (
           <div className='text-gray-600 body-font overflow-hidden'>
                <div className='container px-5 py-24 mx-auto'>
                     <div className='lg:w-4/5 mx-auto flex flex-wrap'>

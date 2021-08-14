@@ -1,17 +1,18 @@
 import { Link } from "react-router-dom";
 import { AddToCartButton } from "./add-to-cart-button";
 import { ProductInterface } from "../interfaces/product-interface";
+import { useState } from "react";
 
 export type PropsProductCard = {
      product: ProductInterface;
 };
 
 export const ProductCard: React.FC<PropsProductCard> = ({ product }) => {
-     const handleAddToCart = () => {
-          console.log(product.id);
-     };
+     const [carts, setCarts] = useState({});
+     const handleAddToCart = () => setCarts(product);
+     console.log(carts);
      return (
-          <div className='w-full max-w-sm mx-auto rounded-3xl shadow-2xl overflow-hidden'>
+          <div className='w-full h-80 max-w-sm mx-auto rounded-3xl shadow-2xl overflow-hidden'>
                <div
                     className='flex items-end justify-end h-56 w-full bg-cover'
                     style={{ backgroundImage: `url(${product.image})` }}>
