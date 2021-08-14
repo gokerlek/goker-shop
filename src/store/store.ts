@@ -11,4 +11,4 @@ export const store = createStore(
      composeWithDevTools(applyMiddleware(epicMiddleware))
 );
 
-epicMiddleware.run(epic);
+epicMiddleware.run(epic as any);

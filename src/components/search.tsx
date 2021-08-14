@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsAction } from "../store/products/products.actions";
 import { getSearchTerms } from "../store/products/products.selectors";
@@ -11,8 +12,17 @@ export const Search: React.FC = () => {
           dispatch(getProductsAction(event.target.value));
      };
 
+     const [focus, setFocus] = useState(false);
+
+     const handleBlur = () => {
+          setTimeout(() => setFocus(false), 300);
+     };
+     const handleFocus = () => {
+          setFocus(true);
+     };
+
      return (
-          <div className='w-1/3 relative'>
+          <div className='w-1/3 '>
                <div className='bg-white mt-4 text-sm rounded-lg py-2 px-4 flex w-full cursor-pointer'>
                     <input
                          className='w-full m-0 p-0 text-gray-600 border-none placeholder-gray-400 focus:ring-transparent cursor-pointer'
@@ -20,6 +30,8 @@ export const Search: React.FC = () => {
                          placeholder='Search your dream product...'
                          defaultValue={searchTerms}
                          onChange={handleChange}
+                         onFocus={handleFocus}
+                         onBlur={handleBlur}
                          data-testid='search'
                     />
                     <svg
@@ -36,7 +48,7 @@ export const Search: React.FC = () => {
                          />
                     </svg>
                </div>
-               <SearchSuggestions />
+               {focus ? <SearchSuggestions /> : null}
           </div>
      );
 };

@@ -1,14 +1,15 @@
 import { Action } from "redux";
-import { combineEpics, ofType } from "redux-observable";
+import { combineEpics, Epic, ofType } from "redux-observable";
 import { catchError, debounceTime, map, Observable, of, switchMap } from "rxjs";
 import {
      getProductsErrAction,
      getProductsOkAction,
+     ProductsActions,
      ProductsActionType,
 } from "./products.actions";
 import { ProductsService } from "./products.service";
 
-const getProducts = (action$: Observable<Action>) => {
+const getProducts: Epic<ProductsActions> = (action$) => {
      return action$.pipe(
           ofType(ProductsActionType.GET),
           debounceTime(300), // kullanıcının yazma hızına göre verilmiş 300 milisaniye bekleme süresi.

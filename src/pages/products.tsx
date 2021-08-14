@@ -5,6 +5,9 @@ import { ProductInterface } from "../interfaces/product-interface";
 import { Logo } from "../components/logo";
 import { AddToCartButton } from "../components/add-to-cart-button";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategory } from "../store/category/category.selectors";
+import { getCategoryAction } from "../store/category/category.actions";
 
 interface BasketType {
      date: string;
@@ -16,8 +19,8 @@ interface BasketType {
 
 export const Products: React.FC = () => {
      const { category }: { category: string } = useParams();
+     const products = useSelector(getCategory);
 
-     const [products, setProducts] = useState<ProductInterface[]>([]);
      const [userCart, setUserCart] = useState<BasketType>(({
           products: [],
      } as unknown) as BasketType);
@@ -69,16 +72,10 @@ export const Products: React.FC = () => {
                }),
           });
      };
+     const dispatch = useDispatch();
 
      useEffect(() => {
-          fetch(
-               `https://fakestoreapi.com/products/category/${category.replaceAll(
-                    "_",
-                    " "
-               )}`
-          )
-               .then((res) => res.json() as Promise<ProductInterface[]>)
-               .then((json) => setProducts(json));
+          dispatch(getCategoryAction(category.replaceAll("_", " ")));
      }, [category]);
 
      useEffect(() => {

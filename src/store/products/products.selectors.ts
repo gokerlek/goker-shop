@@ -16,8 +16,12 @@ export const getFilterProducts = createSelector(
      getSearchTerms,
      (products, searchTerms) =>
           products
-               .filter((data) =>
-                    data.title.toLowerCase().includes(searchTerms.toLowerCase())
+               .filter(
+                    (data) =>
+                         searchTerms.length > 1 &&
+                         data.title
+                              .toLowerCase()
+                              .includes(searchTerms.toLowerCase())
                )
                .slice(0, 5)
 );
