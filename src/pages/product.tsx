@@ -17,7 +17,7 @@ export const Product: React.FC = () => {
 
      useEffect(() => {
           dispatch(getProductAction(id));
-     }, [id]);
+     }, [id, dispatch]);
 
      return isProductPending ? (
           <div>Loading</div>

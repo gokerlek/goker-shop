@@ -1,5 +1,5 @@
 import { combineEpics, Epic, ofType } from "redux-observable";
-import { catchError, map, Observable, of, switchMap } from "rxjs";
+import { catchError, map, of, switchMap } from "rxjs";
 import {
      getCategoryErrAction,
      getCategoryOkAction,
