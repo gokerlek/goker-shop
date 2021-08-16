@@ -1,6 +1,5 @@
-import { Action } from "redux";
 import { combineEpics, Epic, ofType } from "redux-observable";
-import { catchError, debounceTime, map, Observable, of, switchMap } from "rxjs";
+import { catchError, debounceTime, map, of, switchMap } from "rxjs";
 import {
      getProductsErrAction,
      getProductsOkAction,

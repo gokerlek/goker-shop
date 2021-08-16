@@ -45,7 +45,7 @@ export const Products: React.FC = () => {
 
      const addProductToCart = (productId: number) => () => {
           // eğer ürün eklenmemişse ürünü userCart quantity 1 olarak ekle. +
-          // eğer eren ürün varsa quantity 1 arttır +
+          // eğer  ürün varsa quantity 1 arttır +
           // yeni değerleri setuserCart çağır +
           // yeni değerlerle API patch request yap +
 
@@ -76,7 +76,7 @@ export const Products: React.FC = () => {
 
      useEffect(() => {
           dispatch(getCategoryAction(category.replaceAll("_", " ")));
-     }, [category]);
+     }, [category, dispatch]);
 
      useEffect(() => {
           fetch("https://fakestoreapi.com/carts/1")
