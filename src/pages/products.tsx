@@ -1,34 +1,22 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router";
 import { Search } from "../components/search";
-import { ProductInterface } from "../interfaces/product-interface";
 import { Logo } from "../components/logo";
 import { AddToCartButton } from "../components/add-to-cart-button";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategory } from "../store/category/category.selectors";
 import { getCategoryAction } from "../store/category/category.actions";
-
-interface BasketType {
-     date: string;
-     id: number;
-     userId: number;
-     products: { productId: number; quantity: number }[];
-     product: ProductInterface;
-}
+import { getCartAction, updateCartAction } from "../store/cart/cart.actions";
+import { getCart, getTotalPricesOfCart } from "../store/cart/cart.selectors";
 
 export const Products: React.FC = () => {
      const { category }: { category: string } = useParams();
      const products = useSelector(getCategory);
+     const userCart = useSelector(getCart);
+     const dispatch = useDispatch();
 
-     const [userCart, setUserCart] = useState<BasketType>(({
-          products: [],
-     } as unknown) as BasketType);
-     const [userProducts, setUserProducts] = useState<ProductInterface[]>(
-          [] as ProductInterface[]
-     );
-
-     const [totalPriceOfCart, setTotalPriceOfCart] = useState<number>(0);
+     const totalPriceOfCart = useSelector(getTotalPricesOfCart);
 
      const updateProductCart = (quantity: number, productId: number) => {
           const updatedUserCart = userCart;
@@ -44,11 +32,6 @@ export const Products: React.FC = () => {
      };
 
      const addProductToCart = (productId: number) => () => {
-          // eğer ürün eklenmemişse ürünü userCart quantity 1 olarak ekle. +
-          // eğer  ürün varsa quantity 1 arttır +
-          // yeni değerleri setuserCart çağır +
-          // yeni değerlerle API patch request yap +
-
           let quantity;
           const findProduct = userCart.products.find(
                (product) => product.productId === productId
@@ -61,52 +44,28 @@ export const Products: React.FC = () => {
           }
 
           const updatedProductCart = updateProductCart(quantity, productId);
-          setUserCart({ ...updatedProductCart });
 
-          fetch("https://fakestoreapi.com/carts/1", {
-               method: "PATCH",
-               body: JSON.stringify({
-                    userId: 1,
-                    date: 2019 - 12 - 10,
-                    products: [...updatedProductCart.products],
-               }),
-          });
+          dispatch(
+               updateCartAction({
+                    cartId: 1,
+                    cart: {
+                         userId: 1,
+                         date: "2019 - 12 - 10",
+                         products: [...updatedProductCart.products],
+                    },
+               })
+          );
      };
-     const dispatch = useDispatch();
 
      useEffect(() => {
           dispatch(getCategoryAction(category.replaceAll("_", " ")));
      }, [category, dispatch]);
 
      useEffect(() => {
-          fetch("https://fakestoreapi.com/carts/1")
-               .then((res) => res.json() as Promise<BasketType>)
-               .then((json) => setUserCart(json));
-     }, [setUserCart]);
+          dispatch(getCartAction(1));
+     }, [dispatch]);
 
-     useEffect(() => {
-          Promise.all(
-               userCart.products.map(
-                    (product) =>
-                         fetch(
-                              `https://fakestoreapi.com/products/${product.productId}`
-                         ).then((res) =>
-                              res.json()
-                         ) as Promise<ProductInterface>
-               )
-          ).then(setUserProducts);
-     }, [userCart, setUserProducts]);
-
-     useEffect(() => {
-          const prices = userCart.products.map((product) => {
-               const findPrices = userProducts.find(
-                    (userProduct) => userProduct.id === product.productId
-               );
-               return findPrices ? findPrices.price * product.quantity : 0;
-          });
-          setTotalPriceOfCart(prices.reduce((sum, cur) => sum + cur, 0));
-     }, [setTotalPriceOfCart, userCart, userProducts]);
-
+     console.log(userCart, products);
      return (
           <>
                <div className='h-productLine flex items-center justify-between bg-productLine mb-16'>

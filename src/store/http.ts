@@ -9,4 +9,7 @@ export const http = {
      get: (path: string) => {
           return ajax({ url: getApi(path), method: "GET" });
      },
+     patch: (path: string, body: any) => {
+          return ajax({ url: getApi(path), method: "PATCH", body });
+     },
 };

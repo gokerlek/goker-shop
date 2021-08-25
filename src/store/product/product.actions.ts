@@ -15,9 +15,11 @@ export enum ProductActionType {
 
 export interface GetProductAction {
      type: ProductActionType.GET;
-     payload: string;
+     payload: string | number;
 }
-export const getProductAction = (payload: string): GetProductAction => ({
+export const getProductAction = (
+     payload: string | number
+): GetProductAction => ({
      type: ProductActionType.GET,
      payload,
 });
